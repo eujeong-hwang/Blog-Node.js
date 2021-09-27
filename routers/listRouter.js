@@ -56,6 +56,7 @@ router.post('/list', async (req, res) => {
 // });
 
 router.get("/list/:ID", async (req, res) => {
+  //변수랑 api 
   const { ID } = req.params;
   console.log(ID)
   let listID = await Lists.findOne({ _id:ID });
