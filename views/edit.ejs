@@ -53,8 +53,8 @@
                     data: {},
                     success: function (response) {
                         let listDetail = response["detail"];
-                        // let pwd = listDetail['pwd'];
                         // console.log(listDetail)
+                        
                         //.text가 아닌 .val값을 받음
                         $("#list_title").val(listDetail["title"]);
                         $("#list_name").val(listDetail["name"]);
