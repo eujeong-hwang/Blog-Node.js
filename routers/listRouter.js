@@ -74,25 +74,6 @@ router.delete("/list/:ID", async (req, res) => {
   res.send({result: "success"});  
 });
 
-
-// views/edit.ejs 글 수정 페이지
-// router.patch("/list/:ID", async (req, res) => {
-//   const { ID } = req.params;
-//   const { title, name, pwd, content } = req.body;
-//   console.log(title,name, pwd, content)
-//   const list = await Lists.find({ '_id': ID, 'pwd': pwd});
-//   console.log(list)
-//   if(list.length > 0) {
-//     await Lists.updateOne({ 'id': ID, }, {$set: {title, name, pwd,content}})
-//     const find_list = await Lists.find({'_id':ID})  
-//     console.log(find_list)
-//     res.send({ result: "success", list:find_list });
-//   }
-//   else{
-//     res.send({result:"fail"});
-//   }
-// });
-
 router.patch("/list/:ID", async(req, res) => {
   const { ID } = req.params;
   const {title, name, content} = req.body;
@@ -106,8 +87,5 @@ router.patch("/list/:ID", async(req, res) => {
   }
 
 })
-
-
-
 
 module.exports = router;
