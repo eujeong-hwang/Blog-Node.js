@@ -46,16 +46,7 @@ router.post('/list', async (req, res) => {
   res.send({ result: "success" });
 });
 
-
-//상세페이지
-// router.get("/list/:date", async (req, res) => {
-//   const { date } = await req.query;
-//   console.log(req.query)
-//   let listDate = await Lists.findOne({ date: date });
-//   console.log(listDate)
-//   res.json({ detail: listDate });
-// });
-
+//views/detail.ejs "GET"
 router.get("/list/:ID", async (req, res) => {
   //변수랑 api 이름이랑 최대한 통일 시키자!!!!!!!!
   const { ID } = req.params;
@@ -64,7 +55,7 @@ router.get("/list/:ID", async (req, res) => {
 });
 
 
-//views/detail.ejs 삭제 페이지
+//views/detail.ejs "DELETE"
 router.delete("/list/:ID", async (req, res) => {
   const {ID} = req.params;
   const list = await Lists.find({ID});
@@ -74,6 +65,7 @@ router.delete("/list/:ID", async (req, res) => {
   res.send({result: "success"});  
 });
 
+//views/edit.ejs "UPDATE"
 router.patch("/list/:ID", async(req, res) => {
   const { ID } = req.params;
   const {title, name, content} = req.body;
