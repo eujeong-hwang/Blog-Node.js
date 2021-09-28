@@ -41,13 +41,19 @@ app.get('/', (req, res) => {
 
 //views/detail.ejs파일을 get 하는 것!
 app.get('/detail', (req, res) => {
-    res.render('detail');
+  res.render('detail');
 })
 
 //views/write.ejs파일을 get
 app.get('/write', (req, res) => {
-    res.render('write');
+  res.render('write');
 })
+
+//views/edit.ejs파일을 get
+app.get('/edit', (req, res) => {
+  res.render('edit');
+})
+
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`)
