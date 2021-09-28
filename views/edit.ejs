@@ -53,61 +53,67 @@
                     data: {},
                     success: function (response) {
                         let listDetail = response["detail"];
-                        console.log(listDetail)
-                        $("#list_title").text(listDetail["title"]);
-                        $("#list_name").text(listDetail["name"]);
+                        // let pwd = listDetail['pwd'];
+                        // console.log(listDetail)
+                        //.text가 아닌 .val값을 받음
+                        $("#list_title").val(listDetail["title"]);
+                        $("#list_name").val(listDetail["name"]);
                         $("#date").text(listDetail["date"]);
                         $("#list_content").text(listDetail["content"]);
                     }
                 });
             }
 
-        // 삭제하기 버튼을 누르면 modal 창이 뜨게 하는 function    
-        // function start_modal(){
-        //     $('#list_modal').modal('show');
-        //     $('#list_modal').appendTo('body');
+        // "수정 완료" 버튼을 누르면 modal 창이 뜨게 하는 function    
+        function start_modal(){
+            $('#list_modal').modal('show');
+            $('#list_modal').appendTo('body');
 
-        // }
+        }
 
-        // function deleted(){
-        //     $.ajax({
-        //         type: "GET",
-        //         url: `api/list/${ID}`,
-        //         data: {},
-        //         success: function (response){
-        //             let listDetail = response["detail"];
-        //             //db에 저장된 비번
-        //             let db_pwd = listDetail['pwd']
-        //             if(db_pwd == $('#list_pwd').val()){
-        //                 edit_list()
-        //             }
-        //             else{
-        //                 alert("비밀번호가 일치하지 않습니다!");
-        //             }
-        //         }
-        //     })
+        //수정 완료하고 modal창이 뜬 후, 비번을 입력 완료할 때
+        // "확인" 버튼을 누르면 불린다.
+        function finish_edit(){
+            $.ajax({
+                type: "GET",
+                url: `api/list/${ID}`,
+                data: {},
+                success: function (response){
+                    let listDetail = response["detail"];
+                    //db에 저장된 비번
+                    let db_pwd = listDetail['pwd']
+                    if(db_pwd == $('#list_pwd').val()){
+                        edit_list()
+                    }
+                    else{
+                        alert("비밀번호가 일치하지 않습니다!");
+                    }
+                }
+            })
 
-        // }   
+        }   
 
-        // db_pwd == $('#list_pwd').val())가 true일 경우 
-        //function edit_list()가 작동!
-        // function edit_list(){
-        //     $.ajax({
-        //         type: "DELETE",
-        //         url: `api/list/${ID}`,
-        //         data: {},
-        //         success: function(response) {
-        //             if(response["result"] == "success"){
-        //                 location.href="/"
-        //             }
-        //         }
-        //     })
+        // db_pwd == $('#list_pwd').val())가 true일 때 불리는 function
+        function edit_list(){
+            $.ajax({
+                type: "PATCH",
+                url: `api/list/${ID}`,
+                data: {
+                    //새로 입력한 데이터
+                    title: $('#list_title').val(),
+                    name: $('#list_name').val(),
+                    content: $('#list_content').val()
+                },
+                success: function(response) {
+                    if(response["result"] === "success"){
+                        alert("수정 되었습니다!")
+                        window.location.href = "/"
+                    }
+                }
+            })
 
-        // }
+        }
 
-    function back() {
-        location.href = 'javascript:history.back();'
-    }
 
     </script>
     <style>
@@ -143,13 +149,13 @@
         <!-- 제목 부분 -->
         <div class="field">
             <label class="label" style="color:aliceblue">제목</label>
-            <label id="list_title" class="form-control"></label>
+            <input id="list_title" class="form-control">
         </div>
 
         <!-- 작성자명 -->
         <div class="field">
             <label class="label" style="color:aliceblue">작성자명</label>
-            <label id="list_name" class="form-control"></label>
+            <input id="list_name" class="form-control">
         </div>
 
         <!-- 작성 날짜 -->
@@ -162,24 +168,26 @@
         <div class="field">
             <label class="label" style="color:aliceblue">작성 내용</label>
             <div class="control">
-                <label class="textarea" id="list_content"></label>
+                <textarea class="textarea" id="list_content"></textarea>>
             </div>
         </div>
 
         <div class="field is-grouped">
             <div class="control">
                 <!-- 수정하기 버튼 -->
-                <button class="button is-link" onclick="start_modal()">수정완료</button>
+                <button class="button is-link" onclick="start_modal()">수정 완료</button>
             </div>
 
             <div class="control">
                 <!-- 삭제 버튼 -->
-                <button class="button is-link is-light"> 취소 </button>
+                <button class="button is-link is-light">
+                    <a href="/">취소</a>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- 수정하기, 삭제하기 버튼 누를 때 뜨는 modal! -->
+    <!-- 수정완료 버튼 누를 때 뜨는 modal! -->
     <!--modal의 id를 list_modal로 함-->
     <div class="modal fade" id="list_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true" style="z-index:500;">
@@ -203,7 +211,7 @@
 
                 <!-- 확인, 취소하기 -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="deleted()">확인</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="finish_edit()">확인</button>
                     <!-- data-dismiss="modal"는 취소 누르면 modal 창 없애게 해줌 -->
                     <button type="button" class="btn btn-primary" data-dismiss="modal"> 취소</button>
                 </div>

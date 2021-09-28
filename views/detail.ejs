@@ -97,7 +97,7 @@
                 url: `api/list/${ID}`,
                 data: {},
                 success: function(response) {
-                    if(response["result"] == "success"){
+                    if(response["result"] === "success"){
                         location.href="/"
                     }
                 }
@@ -106,7 +106,7 @@
         }
 
         function edit_list(detail){
-            location.href ="/edit?ID=" + ID
+            location.href ="/edit?id=" + ID
         }
 
     </script>

@@ -1,4 +1,5 @@
 const express = require("express");
+const { countDocuments } = require("../schemas/list");
 //schemas/list에서 정보 가져오기
 const Lists = require("../schemas/list");
 
@@ -58,7 +59,6 @@ router.post('/list', async (req, res) => {
 router.get("/list/:ID", async (req, res) => {
   //변수랑 api 이름이랑 최대한 통일 시키자!!!!!!!!
   const { ID } = req.params;
-  console.log(ID)
   let listID = await Lists.findOne({ _id:ID });
   res.json({ detail: listID });
 });
@@ -76,15 +76,24 @@ router.delete("/list/:ID", async (req, res) => {
 
 
 // views/edit.ejs 글 수정 페이지
-router.patch("/list/:ID", async (req, res) => {
-  const { ID } = req.params;
-  const { title, name, pwd, date, submitDate, content } = req.body;
-  let list = await Lists.find({ ID });
-  if(list.length) {
-    await Lists.updateOne({ ID }, {$set: {title, name, pwd, date, submitDate, content}});
-  }
-  res.send({ result: "success" });
-});
+// router.patch("/list/:ID", async (req, res) => {
+//   const { ID } = req.params;
+//   const { title, name, pwd, content } = req.body;
+//   console.log(title,name, pwd, content)
+//   const list = await Lists.find({ '_id': ID, 'pwd': pwd});
+//   console.log(list)
+//   if(list.length > 0) {
+//     await Lists.updateOne({ 'id': ID, }, {$set: {title, name, pwd,content}})
+//     const find_list = await Lists.find({'_id':ID})  
+//     console.log(find_list)
+//     res.send({ result: "success", list:find_list });
+//   }
+//   else{
+//     res.send({
+//       result:"fail"
+//     })
+//   }
+// });
 
 
 
