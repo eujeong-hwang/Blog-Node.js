@@ -89,11 +89,23 @@ router.delete("/list/:ID", async (req, res) => {
 //     res.send({ result: "success", list:find_list });
 //   }
 //   else{
-//     res.send({
-//       result:"fail"
-//     })
+//     res.send({result:"fail"});
 //   }
 // });
+
+router.patch("/list/:ID", async(req, res) => {
+  const { ID } = req.params;
+  const {title, name, content} = req.body;
+  list_exist = await Lists.find({_id: ID});
+  if(list_exist.length>0){
+    await Lists.updateOne({_id : ID}, {$set: {title, name, content}});
+    res.send({result:"success"});
+  }
+  else{
+    res.send({result:"fail"});
+  }
+
+})
 
 
 
